@@ -1,0 +1,11 @@
+{
+  "scriptId": "314",
+  "url": "file:///C:/Users/micha_8ygdgy8/Fathym/OpenSource/fathym-deno/code-editor/tests/tests.deps.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 35, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

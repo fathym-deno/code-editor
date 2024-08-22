@@ -1,0 +1,16 @@
+{
+  "scriptId": "315",
+  "url": "file:///C:/Users/micha_8ygdgy8/Fathym/OpenSource/fathym-deno/code-editor/src/utils/sampleFunction.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 180, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "sampleFunction",
+      "ranges": [{ "startOffset": 57, "endOffset": 179, "count": 2 }],
+      "isBlockCoverage": true
+    }
+  ]
+}
