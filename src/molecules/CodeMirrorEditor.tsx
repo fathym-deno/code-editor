@@ -45,7 +45,7 @@ export default function CodeMirrorEditor({
           EditorState.create({
             doc: fc,
             extensions: [javascript(), basicSetup, cobalt],
-          })
+          }),
         );
       });
     }
@@ -62,6 +62,7 @@ export default function CodeMirrorEditor({
       {...props}
       class={classSet(['-:w-full -:h-full -:[&>.cm-editor]:h-full'], props)}
       ref={editorRef}
-    ></div>
+    >
+    </div>
   );
 }

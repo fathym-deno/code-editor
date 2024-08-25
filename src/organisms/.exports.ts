@@ -1,8 +1,10 @@
-import { JSX } from '../src.deps.ts';
+import { FunctionalComponent, Ref } from '../src.deps.ts';
 
-import { CodeEditorProps } from './CodeEditor.tsx';
-export { type CodeEditorProps } from './CodeEditor.tsx';
-export const CodeEditor: (props: CodeEditorProps) => JSX.Element = (
-  await import('./CodeEditor.tsx')
-).default;
-
+import { CodeEditorHandle, CodeEditorProps } from './CodeEditor.tsx';
+export { type CodeEditorHandle, type CodeEditorProps } from './CodeEditor.tsx';
+export const CodeEditor = (await import('./CodeEditor.tsx'))
+  .default as FunctionalComponent<
+    React.PropsWithoutRef<CodeEditorProps> & {
+      ref?: Ref<CodeEditorHandle> | undefined;
+    }
+  >;

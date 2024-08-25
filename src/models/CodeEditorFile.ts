@@ -1,3 +1,3 @@
 export type CodeEditorFile = {
-    DownloadPath: string;
+  DownloadPath: string;
 };

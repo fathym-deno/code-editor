@@ -17,7 +17,7 @@ export type SidePanelProps = {
 
   onFileClick?: (
     codeSourceLookup: string,
-    actionPath: string
+    actionPath: string,
   ) => void | Promise<void>;
 
   recommendedFiles?: string[];
@@ -45,7 +45,7 @@ export default function SidePanel({
             '[&>.collapsible-title]:bg-gray-200 [&>.collapsible-title]:dark:bg-gray-800',
             '[&>.collapsible-title]:hover:bg-gray-300 [&>.collapsible-title]:dark:hover:bg-gray-700',
           ],
-          cProps
+          cProps,
         )}
       />
     );
@@ -54,7 +54,7 @@ export default function SidePanel({
   const buildCodeTasksCollapsible = (
     task: CodeChangesProfile,
     index: number,
-    hasOpened: { value: boolean }
+    hasOpened: { value: boolean },
   ) => {
     const shouldOpen = !hasOpened.value && !task.Complete;
 
@@ -73,16 +73,16 @@ export default function SidePanel({
         ])}
       >
         <div>
-          <p class="ml-8 text-xs text-slate-700 dark:text-slate-400">
+          <p class='ml-8 text-xs text-slate-700 dark:text-slate-400'>
             {task.Description}
           </p>
 
           {task.Tasks?.map((tsk, i) => (
-            <div class="ml-4">
+            <div class='ml-4'>
               {buildCodeTasksCollapsible(
                 tsk,
                 Number.parseInt(`${index}${i + 1}`),
-                taskHasOpened
+                taskHasOpened,
               )}
             </div>
           ))}
@@ -94,12 +94,11 @@ export default function SidePanel({
   const hasOpened = { value: false };
 
   useEffect(() => {
-    const rfs =
-      recommendedFiles?.map((recommendedFile) => {
-        const split = ['', ...recommendedFile.split('|')];
+    const rfs = recommendedFiles?.map((recommendedFile) => {
+      const split = ['', ...recommendedFile.split('|')];
 
-        return split.join('/');
-      }) || [];
+      return split.join('/');
+    }) || [];
 
     setRecommendations(rfs);
   }, [recommendedFiles]);
@@ -109,11 +108,11 @@ export default function SidePanel({
       {...props}
       class={classSet(['-:w-full h-full -:flex -:flex-col'], props)}
     >
-      <CoreCollapsible title="Code Changes" isOpenDefault>
-        <div class="m-2">
-          <h2 class="text-lg">{changes.Name}</h2>
+      <CoreCollapsible title='Code Changes' isOpenDefault>
+        <div class='m-2'>
+          <h2 class='text-lg'>{changes.Name}</h2>
 
-          <p class="text-sm text-slate-700 dark:text-slate-400">
+          <p class='text-sm text-slate-700 dark:text-slate-400'>
             {changes.Description}
           </p>
 
@@ -125,8 +124,8 @@ export default function SidePanel({
 
       <div>
         {!!recommendations?.length && (
-          <CoreCollapsible title="Recommended" isOpenDefault>
-            <div class="m-2">
+          <CoreCollapsible title='Recommended' isOpenDefault>
+            <div class='m-2'>
               <FileList
                 files={recommendations || []}
                 onFileClick={(ap) => {
@@ -136,7 +135,7 @@ export default function SidePanel({
 
                   onFileClick?.(
                     [codeSourceOrg, codeSourcePkg].join('/'),
-                    [...actionPath].join('/')
+                    [...actionPath].join('/'),
                   );
                 }}
               />
@@ -148,17 +147,15 @@ export default function SidePanel({
       <div>
         {codeSourceLookups.map((codeSourceLookup) => {
           const fileLookups = Object.keys(
-            sources[codeSourceLookup].Files || {}
+            sources[codeSourceLookup].Files || {},
           );
 
           return (
             <CoreCollapsible title={codeSourceLookup}>
-              <div class="m-2">
+              <div class='m-2'>
                 <FileList
                   files={fileLookups}
-                  onFileClick={(actionPath) =>
-                    onFileClick?.(codeSourceLookup, actionPath)
-                  }
+                  onFileClick={(actionPath) => onFileClick?.(codeSourceLookup, actionPath)}
                 />
               </div>
             </CoreCollapsible>
