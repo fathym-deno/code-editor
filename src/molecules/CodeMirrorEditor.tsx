@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { classSet, IS_BROWSER, JSX, toText } from '../src.deps.ts';
-import { javascript } from 'npm:@codemirror/lang-javascript@6.2.2';
-import { basicSetup } from 'npm:codemirror@6.0.1';
-import { EditorState } from 'npm:@codemirror/state@6.4.1';
-import { EditorView } from 'npm:@codemirror/view@6.32.0';
-import { cobalt } from 'npm:thememirror@2.0.1';
+import { basicSetup, cobalt, EditorState, EditorView, javascript } from '../codemirror.deps.ts';
 
 export const IsIsland = true;
 
