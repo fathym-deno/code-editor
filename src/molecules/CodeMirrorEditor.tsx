@@ -43,7 +43,7 @@ export default function CodeMirrorEditor({
       if (editor) {
         const fc = fileContent && !fileContent.locked ? await toText(fileContent) : '';
 
-        if (!editorState || fc) {
+        if (!editorState || fc || !fileContent?.locked) {
           setEditorState(
             EditorState.create({
               doc: fc,
