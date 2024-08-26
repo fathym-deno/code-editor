@@ -68,7 +68,7 @@ export default function FilesPanel({
       if (activeCodeFile) {
         const contents = await fetch(activeCodeFile.DownloadPath);
 
-        setActiveFileContents(contents.body!);
+        setActiveFileContents(contents.clone().body!);
       } else {
         setActiveFileContents(undefined);
       }
