@@ -40,28 +40,24 @@ export default function CodeMirrorEditor({
 
   useEffect(() => {
     const work = async () => {
-      if (editor) {
-        const fc = fileContent && !fileContent.locked ? await toText(fileContent) : '';
+      const fc = fileContent && !fileContent.locked ? await toText(fileContent) : '';
 
-        if (!editorState || fc || !fileContent?.locked) {
-          setEditorState(
-            EditorState.create({
-              doc: fc,
-              extensions: [javascript(), basicSetup, cobalt],
-            }),
-          );
-        }
-      }
+      setEditorState(
+        EditorState.create({
+          doc: fc,
+          extensions: [javascript(), basicSetup, cobalt],
+        }),
+      );
     };
 
     work();
-  }, [editor, fileContent]);
+  }, [fileContent]);
 
   useEffect(() => {
     if (editor && editorState) {
       editor.setState(editorState);
     }
-  }, [editorState]);
+  }, [editor, editorState]);
 
   return (
     <div
