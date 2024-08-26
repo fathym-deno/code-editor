@@ -41,14 +41,16 @@ export default function CodeMirrorEditor({
   useEffect(() => {
     const work = async () => {
       if (editor) {
-        const fc = fileContent ? await toText(fileContent) : '';
+        const fc = fileContent && !fileContent.locked ? await toText(fileContent) : '';
 
-        setEditorState(
-          EditorState.create({
-            doc: fc,
-            extensions: [javascript(), basicSetup, cobalt],
-          }),
-        );
+        if (!editorState || fc) {
+          setEditorState(
+            EditorState.create({
+              doc: fc,
+              extensions: [javascript(), basicSetup, cobalt],
+            }),
+          );
+        }
       }
     };
 
