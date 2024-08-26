@@ -27,16 +27,19 @@ export default function CodeMirrorEditor({
   const [editorState, setEditorState] = useState<EditorState>();
 
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef?.current) {
+      console.log('editorRef');
       const editor = new EditorView({
         parent: editorRef.current,
       });
 
       setEditor(editor);
 
-      return () => editor.destroy();
+      return () => {
+        editor.destroy();
+      };
     }
-  }, [editorRef.current]);
+  }, [editorRef]);
 
   useEffect(() => {
     const work = async () => {
