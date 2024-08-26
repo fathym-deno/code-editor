@@ -39,16 +39,20 @@ export default function CodeMirrorEditor({
   }, [editorRef.current]);
 
   useEffect(() => {
-    if (editor) {
-      toText(fileContent || new ReadableStream<Uint8Array>()).then((fc) => {
+    const work = async () => {
+      if (editor) {
+        const fc = fileContent ? await toText(fileContent) : '';
+
         setEditorState(
           EditorState.create({
             doc: fc,
             extensions: [javascript(), basicSetup, cobalt],
           }),
         );
-      });
-    }
+      }
+    };
+
+    work();
   }, [editor, fileContent]);
 
   useEffect(() => {
