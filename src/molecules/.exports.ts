@@ -12,6 +12,12 @@ export const FilesPanel: (props: FilesPanelProps) => JSX.Element = (
   await import('./FilesPanel.tsx')
 ).default;
 
+import { OverlayDiffEditorProps } from './OverlayDiffEditor.tsx';
+export { type OverlayDiffEditorProps } from './OverlayDiffEditor.tsx';
+export const OverlayDiffEditor: (props: OverlayDiffEditorProps) => JSX.Element = (
+  await import('./OverlayDiffEditor.tsx')
+).default;
+
 import { SidePanelProps } from './SidePanel.tsx';
 export { type SidePanelProps } from './SidePanel.tsx';
 export const SidePanel: (props: SidePanelProps) => JSX.Element = (

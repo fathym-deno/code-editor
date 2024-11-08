@@ -1,15 +1,24 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { classSet, IS_BROWSER, JSX, toText } from '../src.deps.ts';
-import { basicSetup, cobalt, EditorState, EditorView, javascript } from '../codemirror.deps.ts';
+import {
+  basicSetup,
+  cobalt,
+  EditorState,
+  EditorView,
+  javascript,
+  ViewUpdate,
+} from '../codemirror.deps.ts';
 
 export const IsIsland = true;
 
 export type CodeMirrorEditorProps = {
-  fileContent?: ReadableStream<Uint8Array>;
+  fileContent?: ReadableStream<Uint8Array> | string;
+  onContentChange?: (content: string) => void; // New prop to handle content changes
 } & JSX.HTMLAttributes<HTMLDivElement>;
 
 export default function CodeMirrorEditor({
   fileContent,
+  onContentChange,
   ...props
 }: CodeMirrorEditorProps): JSX.Element {
   if (!IS_BROWSER) {
@@ -17,53 +26,57 @@ export default function CodeMirrorEditor({
   }
 
   const editorRef = useRef<HTMLDivElement>(null);
-
   const [editor, setEditor] = useState<EditorView>();
 
-  const [editorState, setEditorState] = useState<EditorState>();
-
   useEffect(() => {
-    if (editorRef?.current) {
-      console.log('editorRef');
-      const editor = new EditorView({
+    if (editorRef?.current && !editor) {
+      const editorInstance = new EditorView({
         parent: editorRef.current,
+        state: EditorState.create({
+          doc: typeof fileContent === 'string' ? fileContent : '',
+          extensions: [
+            javascript(),
+            basicSetup,
+            cobalt,
+            EditorView.updateListener.of((update: ViewUpdate) => {
+              if (update.docChanged && onContentChange) {
+                onContentChange(update.state.doc.toString());
+              }
+            }),
+          ],
+        }),
       });
 
-      setEditor(editor);
-
-      return () => {
-        editor.destroy();
-      };
+      setEditor(editorInstance);
+      return () => editorInstance.destroy();
     }
-  }, [editorRef]);
+  }, [fileContent, onContentChange]);
 
   useEffect(() => {
-    const work = async () => {
-      const fc = fileContent && !fileContent.locked ? await toText(fileContent) : '';
-
-      setEditorState(
-        EditorState.create({
-          doc: fc,
-          extensions: [javascript(), basicSetup, cobalt],
-        }),
-      );
+    const updateEditorContent = async () => {
+      const content = typeof fileContent === 'string'
+        ? fileContent
+        : fileContent && !fileContent.locked
+        ? await toText(fileContent)
+        : '';
+      if (editor) {
+        editor.setState(
+          EditorState.create({
+            doc: content,
+            extensions: [javascript(), basicSetup, cobalt],
+          }),
+        );
+      }
     };
 
-    work();
+    updateEditorContent();
   }, [fileContent]);
-
-  useEffect(() => {
-    if (editor && editorState) {
-      editor.setState(editorState);
-    }
-  }, [editor, editorState]);
 
   return (
     <div
       {...props}
       class={classSet(['-:w-full -:h-full -:[&>.cm-editor]:h-full'], props)}
       ref={editorRef}
-    >
-    </div>
+    />
   );
 }
