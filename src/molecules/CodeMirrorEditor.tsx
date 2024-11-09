@@ -54,17 +54,18 @@ export default function CodeMirrorEditor({
 
   useEffect(() => {
     const updateEditorContent = async () => {
-      const content = typeof fileContent === 'string'
-        ? fileContent
-        : fileContent && !fileContent.locked
-        ? await toText(fileContent)
-        : '';
+      const content =
+        typeof fileContent === 'string'
+          ? fileContent
+          : fileContent && !fileContent.locked
+          ? await toText(fileContent)
+          : '';
       if (editor) {
         editor.setState(
           EditorState.create({
             doc: content,
             extensions: [javascript(), basicSetup, cobalt],
-          }),
+          })
         );
       }
     };
@@ -75,7 +76,12 @@ export default function CodeMirrorEditor({
   return (
     <div
       {...props}
-      class={classSet(['-:w-full -:h-full -:[&>.cm-editor]:h-full'], props)}
+      class={classSet(
+        [
+          '-:w-full -:h-full -:[&>.cm-editor]:h-full -:[&>.ͼ2v]:bg-[#00254be1]',
+        ],
+        props
+      )}
       ref={editorRef}
     />
   );
