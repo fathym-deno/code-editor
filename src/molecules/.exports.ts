@@ -6,6 +6,18 @@ export const CodeMirrorEditor: (props: CodeMirrorEditorProps) => JSX.Element = (
   await import('./CodeMirrorEditor.tsx')
 ).default;
 
+import { CodeMirrorSideBySideMergeEditorProps } from './CodeMirrorSideBySideMergeEditor.tsx';
+export { type CodeMirrorSideBySideMergeEditorProps } from './CodeMirrorSideBySideMergeEditor.tsx';
+export const CodeMirrorSideBySideMergeEditor: (props: CodeMirrorSideBySideMergeEditorProps) => JSX.Element = (
+  await import('./CodeMirrorSideBySideMergeEditor.tsx')
+).default;
+
+import { CodeMirrorUnifiedMergeEditorProps } from './CodeMirrorUnifiedMergeEditor.tsx';
+export { type CodeMirrorUnifiedMergeEditorProps } from './CodeMirrorUnifiedMergeEditor.tsx';
+export const CodeMirrorUnifiedMergeEditor: (props: CodeMirrorUnifiedMergeEditorProps) => JSX.Element = (
+  await import('./CodeMirrorUnifiedMergeEditor.tsx')
+).default;
+
 import { FilesPanelProps } from './FilesPanel.tsx';
 export { type FilesPanelProps } from './FilesPanel.tsx';
 export const FilesPanel: (props: FilesPanelProps) => JSX.Element = (
