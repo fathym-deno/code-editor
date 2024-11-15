@@ -1,20 +1,24 @@
 import { useState } from 'preact/hooks';
-import { JSX } from '../src.deps.ts';
+import { classSet, JSX } from '../src.deps.ts';
 import CodeMirrorEditor from './CodeMirrorEditor.tsx';
+import CodeMirrorUnifiedMergeEditor from './CodeMirrorUnifiedMergeEditor.tsx';
+import { EditorState, Extension } from '../codemirror.deps.ts';
 
 export type OverlayDiffEditorProps = {
+  extensions?: Extension[];
   originalContent?: string;
   modifiedContent?: string;
   onContentChange?: (content: string) => void;
 } & JSX.HTMLAttributes<HTMLDivElement>;
 
 export default function OverlayDiffEditor({
+  extensions,
   originalContent = '',
   modifiedContent = '',
   onContentChange,
   ...props
 }: OverlayDiffEditorProps): JSX.Element {
-  const [dividerPosition, setDividerPosition] = useState(0.5); // 10% from the left
+  const [dividerPosition, setDividerPosition] = useState(0.05); // 10% from the left
 
   // Handle resizing of the overlay editor
   const handleMouseDown = (e: MouseEvent) => {
@@ -28,7 +32,7 @@ export default function OverlayDiffEditor({
         // Subtract 1.5px to ensure the handle stays within the container bounds on the right side
         const constrainedLeft = Math.max(
           0,
-          Math.min(newLeft, container.width / 2 - 1.5),
+          Math.min(newLeft, container.width - 3),
         );
         setDividerPosition(constrainedLeft / container.width);
       }
@@ -44,26 +48,27 @@ export default function OverlayDiffEditor({
   };
 
   return (
-    <div {...props} class='relative w-full h-full overflow-hidden'>
+    <div {...props} class={classSet(['relative w-full h-full overflow-hidden'], props)}>
       {/* Original Content Editor (Left of Divider) */}
       <div
-        class='absolute inset-y-0 left-0 overflow-hidden'
-        style={{ width: `${dividerPosition * 100}%` }}
+        class='relative inset-y-0'
+        style={{ width: `100%` }}
       >
         <CodeMirrorEditor
-          class='w-full h-full [&>.cm-scrollbar]:hidden'
+          extensions={[EditorState.readOnly.of(true), ...(extensions ?? [])]}
           fileContent={originalContent}
         />
       </div>
 
       {/* Modified Content Editor (Right of Divider) */}
       <div
-        class='absolute inset-y-0 right-0 overflow-hidden'
+        class='absolute inset-y-0 right-0'
         style={{ width: `${(1 - dividerPosition) * 100}%` }}
       >
-        <CodeMirrorEditor
-          class='w-full h-full [&>.cm-scrollbar]:hidden'
-          fileContent={modifiedContent}
+        <CodeMirrorUnifiedMergeEditor
+          originalContent={originalContent}
+          modifiedContent={modifiedContent}
+          extensions={extensions}
           onContentChange={onContentChange}
         />
       </div>

@@ -8,13 +8,17 @@ export const CodeMirrorEditor: (props: CodeMirrorEditorProps) => JSX.Element = (
 
 import { CodeMirrorSideBySideMergeEditorProps } from './CodeMirrorSideBySideMergeEditor.tsx';
 export { type CodeMirrorSideBySideMergeEditorProps } from './CodeMirrorSideBySideMergeEditor.tsx';
-export const CodeMirrorSideBySideMergeEditor: (props: CodeMirrorSideBySideMergeEditorProps) => JSX.Element = (
+export const CodeMirrorSideBySideMergeEditor: (
+  props: CodeMirrorSideBySideMergeEditorProps,
+) => JSX.Element = (
   await import('./CodeMirrorSideBySideMergeEditor.tsx')
 ).default;
 
 import { CodeMirrorUnifiedMergeEditorProps } from './CodeMirrorUnifiedMergeEditor.tsx';
 export { type CodeMirrorUnifiedMergeEditorProps } from './CodeMirrorUnifiedMergeEditor.tsx';
-export const CodeMirrorUnifiedMergeEditor: (props: CodeMirrorUnifiedMergeEditorProps) => JSX.Element = (
+export const CodeMirrorUnifiedMergeEditor: (
+  props: CodeMirrorUnifiedMergeEditorProps,
+) => JSX.Element = (
   await import('./CodeMirrorUnifiedMergeEditor.tsx')
 ).default;
 

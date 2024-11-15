@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import {
-basicSetup,
+  basicSetup,
   cobalt,
   EditorState,
   EditorView,
   Extension,
   ViewUpdate,
 } from '../codemirror.deps.ts';
-import { JSX, toText } from '../src.deps.ts';
+import { classSet, JSX, toText } from '../src.deps.ts';
 
 export type BaseCodeMirrorEditorProps = {
   doc: ReadableStream<Uint8Array> | string;
@@ -18,35 +18,42 @@ export type BaseCodeMirrorEditorProps = {
 
 export function BaseCodeMirrorEditor({
   doc,
-  extensions = [],
+  extensions,
   lineWrapping = true,
   onContentChange,
   ...props
 }: BaseCodeMirrorEditorProps): JSX.Element {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView>();
-  const [content, setContent] = useState<string>(
-    typeof doc === 'string' ? doc : ''
+  const [fileContent, setFileContent] = useState<string>(
+    typeof doc === 'string' ? doc : '',
   );
 
   useEffect(() => {
+    const setLocalFileContent = (text: string) => {
+      if (editor?.state.doc.toString() !== text) {
+        setFileContent(text);
+      }
+    };
+
     if (typeof doc === 'object' && doc instanceof ReadableStream) {
-      toText(doc).then((text: string) => setContent(text));
+      toText(doc).then((text: string) => setLocalFileContent(text));
     } else {
-      setContent(doc);
+      setLocalFileContent(doc);
     }
   }, [doc]);
 
   useEffect(() => {
-    if (editorRef.current && !editor) {
+    if (editorRef?.current && !editor) {
       const editorInstance = new EditorView({
+        parent: editorRef.current,
         state: EditorState.create({
-          doc: content,
+          doc: typeof fileContent === 'string' ? fileContent : '',
           extensions: [
             basicSetup,
             cobalt,
             lineWrapping ? EditorView.lineWrapping : [],
-            ...extensions,
+            ...(extensions ?? []),
             EditorView.updateListener.of((update: ViewUpdate) => {
               if (update.docChanged && onContentChange) {
                 onContentChange(update.state.doc.toString());
@@ -54,21 +61,43 @@ export function BaseCodeMirrorEditor({
             }),
           ],
         }),
-        parent: editorRef.current,
       });
 
       setEditor(editorInstance);
       return () => editorInstance.destroy();
     }
-  }, [content, extensions, onContentChange]);
+  }, [fileContent, onContentChange]);
 
   useEffect(() => {
-    if (editor && content) {
-      editor.dispatch({
-        changes: { from: 0, to: editor.state.doc.length, insert: content },
-      });
-    }
-  }, [content]);
+    const updateEditorContent = () => {
+      if (editor) {
+        editor.setState(
+          EditorState.create({
+            doc: fileContent,
+            extensions: [
+              basicSetup,
+              cobalt,
+              lineWrapping ? EditorView.lineWrapping : [],
+              ...(extensions ?? []),
+            ],
+          }),
+        );
+      }
+    };
 
-  return <div {...props} ref={editorRef} class="h-full w-full" />;
+    updateEditorContent();
+  }, [fileContent]);
+
+  return (
+    <div
+      {...props}
+      ref={editorRef}
+      class={classSet(
+        [
+          '-:h-full [&>.cm-editor]:h-full -:min-h-full [&>.cm-editor]:min-h-full -:w-full',
+        ],
+        props,
+      )}
+    />
+  );
 }

@@ -1,11 +1,5 @@
-import {
-  Extension,
-  javascript,
-} from '../codemirror.deps.ts';
-import {
-  BaseCodeMirrorEditor,
-  BaseCodeMirrorEditorProps,
-} from './BaseCodeMirrorEditor.tsx';
+import { Extension, javascript } from '../codemirror.deps.ts';
+import { BaseCodeMirrorEditor, BaseCodeMirrorEditorProps } from './BaseCodeMirrorEditor.tsx';
 import { JSX } from '../src.deps.ts';
 
 export const IsIsland = true;

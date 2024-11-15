@@ -1,21 +1,19 @@
-import { useEffect, useState } from 'preact/hooks';
-import { unifiedMergeView, Extension, javascript } from '../codemirror.deps.ts';
-import {
-  BaseCodeMirrorEditor,
-  BaseCodeMirrorEditorProps,
-} from './BaseCodeMirrorEditor.tsx';
+import { Extension, javascript, unifiedMergeView } from '../codemirror.deps.ts';
+import { BaseCodeMirrorEditor, BaseCodeMirrorEditorProps } from './BaseCodeMirrorEditor.tsx';
 
-export type CodeMirrorUnifiedMergeEditorProps = Omit<
-  BaseCodeMirrorEditorProps,
-  'doc' | 'extensions'
-> & {
-  extensions?: Extension[];
-  originalContent: string;
-  modifiedContent: string;
-};
+export type CodeMirrorUnifiedMergeEditorProps =
+  & Omit<
+    BaseCodeMirrorEditorProps,
+    'doc' | 'extensions'
+  >
+  & {
+    extensions?: Extension[];
+    originalContent: string;
+    modifiedContent: string;
+  };
 
 export default function CodeMirrorUnifiedMergeEditor({
-  extensions = [],
+  extensions,
   originalContent,
   modifiedContent,
   onContentChange,
