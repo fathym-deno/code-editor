@@ -4,7 +4,7 @@ export * from 'npm:preact@10.20.1/hooks';
 
 export { toText } from 'jsr:@std/streams@1.0.8';
 
-export * from 'jsr:@fathym/common@0.2.173';
+export * from 'jsr:@fathym/common@0.2.175';
 
 // export * from '../../atomic/mod.ts';
 export * from 'jsr:@fathym/atomic@0.0.180';
