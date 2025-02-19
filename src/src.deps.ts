@@ -2,14 +2,14 @@ export { type ComponentChildren, type FunctionalComponent, type JSX } from 'npm:
 export { type ForwardedRef, forwardRef } from 'npm:preact@10.20.1/compat';
 export * from 'npm:preact@10.20.1/hooks';
 
-export { toText } from 'jsr:@std/streams@1.0.8';
+export { toText } from 'jsr:@std/streams@1.0.9';
 
-export * from 'jsr:@fathym/common@0.2.175';
+export * from 'jsr:@fathym/common@0.2.178';
 
 // export * from '../../atomic/mod.ts';
-export * from 'jsr:@fathym/atomic@0.0.180';
+export * from 'jsr:@fathym/atomic@0.0.181';
 
 // export * as monaco from 'npm:monaco-editor/esm/vs/editor/editor.main.js';
 // export * as monaco from 'https://esm.sh/monaco-editor@0.50.0/esm/vs/editor/editor.main.js';
 
-export { DiffEditor, Editor, loader, useMonaco } from 'npm:@monaco-editor/react@4.6.0';
+export { DiffEditor, Editor, loader, useMonaco } from 'npm:@monaco-editor/react@4.7.0';
