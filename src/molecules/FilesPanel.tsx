@@ -105,6 +105,7 @@ export default function FilesPanel({
                   <span>{fileLookup}</span>
 
                   <button
+                    type='button'
                     onClick={(e) => handleFileRemoveClick(fl, e)}
                     class='ml-2 text-red-500 hover:text-red-700'
                   >
